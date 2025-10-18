@@ -4,7 +4,7 @@ import Product from "../models/Product.js";
 import { isAdmin } from "./userController.js";
 
 export function createProduct(req, res){
-    if(!isAdmin){
+    if(!isAdmin(req)){
         res.status(403).json({
             massage : 'Fobidden Access'
         })
@@ -19,7 +19,7 @@ export function createProduct(req, res){
         }
         ).catch(
             (error)=>{
-                res.json({
+                res.states(500).json({
                     massage : "Error creating product",
                     error : error.massage
                 })
@@ -29,7 +29,7 @@ export function createProduct(req, res){
 }
 
 export function getProduct(req, res){
-    if(isAdmin){
+    if(isAdmin(req)){
     Product.find().then(
         (product)=>{
             res.json(product)
